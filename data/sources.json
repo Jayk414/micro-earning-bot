@@ -1,0 +1,5 @@
+[
+ {"id":"S1","vendor":"BlackRock Aladdin","segment":"Institutional investment and risk","url":"https://www.blackrock.com/aladdin","claim":"Vendor describes whole-portfolio investment workflows and risk analytics. AI appears in the incumbent product roadmap.","terms":["portfolio","risk","AI"]},
+ {"id":"S2","vendor":"SimCorp","segment":"Front-to-back investment operations","url":"https://www.simcorp.com/solutions","claim":"Vendor presents SimCorp One, public/private investment coverage, risk tools and client reporting.","terms":["SimCorp One","portfolio","reporting"]},
+ {"id":"S3","vendor":"Boosted.ai Alfa","segment":"AI investment research","url":"https://www.boosted.ai/","claim":"Vendor describes company/market monitoring and sourced research for individuals, teams and platforms.","terms":["research","sources","platform"]}
+]

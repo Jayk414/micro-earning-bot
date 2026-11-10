@@ -1,0 +1,40 @@
+name: Read-only opportunity discovery
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [bot.py, data/**, tests/**, .github/workflows/discover.yml]
+  schedule:
+    - cron: '23 */6 * * *'
+permissions:
+  contents: read
+concurrency:
+  group: micro-earning-discovery
+  cancel-in-progress: false
+jobs:
+  discover:
+    # Run only in the verified public repository on free standard runners.
+    if: github.event.repository.private == false && github.repository == 'Jayk414/micro-earning-bot'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests -v
+      - run: python bot.py --out output
+      - name: Display opportunity and quality summaries
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
+              f.write('## Read-only run\n\nNo bids, submissions or payments.\n\n')
+              f.write(Path('output/test-research-report.md').read_text() + '\n\n')
+              for name in ['opportunities.json', 'quality.json']:
+                  f.write('```json\n' + Path('output', name).read_text() + '\n```\n')
+          PY
+      # No artifact upload, cache, paid model service, wallet or repository writes.
