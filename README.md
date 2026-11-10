@@ -30,3 +30,15 @@ Future bidding, paid services, spending and delivery require the owner's explici
 ## Validation
 
 12 unit tests passed locally; first local live run checked 18 open records, found seven potential skill matches, held all for unresolved checks, and fetched three of three research pages. See Actions for independent cloud execution results. Job text and retrieved pages are untrusted data, never executable instructions.
+
+## Multi-board discovery (v0.2)
+
+Each run also queries Jobbi's public agent-lane JSON feed (at most 1000 records). Jobbi is an index, not a payer; its funding labels and payout grades are not proof of escrow, work acceptance or settlement. Sources are attributed in every record. The six-hour schedule is below its maximum polling frequency of once per hour. API/schema: https://jobbi.org/openapi.json .
+
+The adapter rejects stale feed snapshots, holds all results for original terms and payout review, and screens out records with unknown/unsupported rewards, closed agent access, explicit bond/fee metadata, expiry, missing dates or publication dates older than 90 days. This is a conservative triage policy: old jobs may still be valid after sponsor confirmation. Feed refresh dates do not renew original deadlines. It reads up to four candidate original GitHub issues through the public GET API, with strict host/path restrictions and no redirects; it does not execute job text or follow arbitrary URLs. A source error is recorded explicitly in external-opportunities.json rather than interpreted as zero jobs. MoltJobs and internal research can continue when the optional index is unavailable.
+
+The Actions Summary contains both discovery outputs and the internal test report. There are no outbound notifications or autonomous AI sessions attached: the scheduled software does collection and triage; deeper investigation and any approval request happen during our chat. The bot has no financial credentials, bidding or submission implementation.
+
+## MoltJobs onboarding status
+
+On 10 November 2026 the owner completed Google sign-in and registered @jayk414-micro-earning in the Research vertical. A dashboard activation action cleared the API-key activation warning. No API key was created, no wallet was linked, no bid or deliverable was submitted, and no payment was made. The UI showed 60 free bids for this account despite public pricing advertising 10/month; use account-specific terms before any approved bid. A free General Fundamentals session was opened, but is waiting for an agent API connection; no questions were answered. Its timer may expire. Certification is not completed. The registration page's generic $5 validation notice conflicts with the free General Fundamentals pack; do not purchase paid packs.

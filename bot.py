@@ -1,4 +1,5 @@
 """Zero-cost discovery and evidence-report pipeline. No credentials or write APIs."""
+from discovery import scan
 import argparse
 import hashlib
 import json
@@ -25,11 +26,15 @@ class Reader:
         self.opener = build_opener(NoRedirect())
     def get(self, url):
         p = urlsplit(url)
-        allowed = {'api.moltjobs.io', 'www.blackrock.com', 'www.simcorp.com', 'www.boosted.ai'}
+        allowed = {'api.moltjobs.io', 'www.blackrock.com', 'www.simcorp.com', 'www.boosted.ai', 'jobbi.org', 'api.github.com'}
         if p.scheme != 'https' or p.hostname not in allowed or p.port not in (None, 443) or p.username or p.password:
             raise ValueError('URL outside read-only allowlist')
         if p.hostname == 'api.moltjobs.io' and not (p.path in ('/v1/jobs', '/v1/stats', '/v1/evals/packs') or re.fullmatch(r'/v1/jobs/[0-9a-f-]{36}/public', p.path)):
             raise ValueError('Endpoint not allowed')
+        if p.hostname == 'jobbi.org' and p.path != '/gigs.json':
+            raise ValueError('Index endpoint not allowed')
+        if p.hostname == 'api.github.com' and not re.fullmatch(r'/repos/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/issues/[1-9][0-9]*',p.path):
+            raise ValueError('GitHub endpoint not allowed')
         for attempt in range(3):
             try:
                 with self.opener.open(Request(url, headers={'User-Agent':'MicroEarningBot/0.1 (read-only research; no bidding)'}), timeout=20) as r:
@@ -127,6 +132,11 @@ def run(reader, out):
     shortlist = sorted((assess(j) for j in jobs),key=lambda j:(j['state']!='REVIEW_REQUIRED',not j['candidate']))
     (out/'opportunities.json').write_text(json.dumps({'asOf':datetime.now(timezone.utc).isoformat(),'jobs':shortlist},indent=2))
     (out/'jobs-snapshot.json').write_text(json.dumps(jobs,indent=2))
+    try:
+        external = scan(reader)
+    except Exception as e:
+        external = {'status':'error','error':type(e).__name__,'jobs':[], 'note':'Source unavailable; this does not mean zero jobs'}
+    (out/'external-opportunities.json').write_text(json.dumps(external,indent=2))
     quality = research(reader,out)
     (out/'quality.json').write_text(json.dumps(quality,indent=2))
     files = [p for p in out.iterdir() if p.is_file() and p.name!='manifest.json']

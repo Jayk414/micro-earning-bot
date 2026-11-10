@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: [bot.py, data/**, tests/**, .github/workflows/discover.yml]
+    paths: [bot.py, discovery.py, data/**, tests/**, .github/workflows/discover.yml]
   schedule:
     - cron: '23 */6 * * *'
 permissions:
@@ -34,7 +34,7 @@ jobs:
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as f:
               f.write('## Read-only run\n\nNo bids, submissions or payments.\n\n')
               f.write(Path('output/test-research-report.md').read_text() + '\n\n')
-              for name in ['opportunities.json', 'quality.json']:
+              for name in ['opportunities.json', 'external-opportunities.json', 'quality.json']:
                   f.write('```json\n' + Path('output', name).read_text() + '\n```\n')
           PY
       # No artifact upload, cache, paid model service, wallet or repository writes.
