@@ -1,0 +1,44 @@
+{
+  "generated": "2026-11-13T10:54:54.268127+00:00",
+  "pages": [
+    "index.html"
+  ],
+  "findings": [
+    {
+      "page": "index.html",
+      "priority": "Review",
+      "issue": "Missing page title",
+      "action": "Add a descriptive title."
+    },
+    {
+      "page": "index.html",
+      "priority": "Review",
+      "issue": "Missing document language",
+      "action": "Set the html lang attribute."
+    },
+    {
+      "page": "index.html",
+      "priority": "Review",
+      "issue": "Missing mobile viewport declaration",
+      "action": "Add width=device-width, initial-scale=1."
+    },
+    {
+      "page": "index.html",
+      "priority": "Review",
+      "issue": "Image has no alt attribute: mark.svg",
+      "action": "Write useful alternative text or use empty alt for decorative images."
+    },
+    {
+      "page": "index.html",
+      "priority": "High",
+      "issue": "Local link target absent: pricing.html",
+      "action": "Correct the link or provide the destination. Server routes may need manual verification."
+    }
+  ],
+  "limitations": [
+    "Static source checks only; no JavaScript execution or screenshots.",
+    "External links, fragments, forms, live server routes, visual mobile layout and accessibility compliance require manual checks.",
+    "No security, performance, SEO ranking or conversion guarantee."
+  ],
+  "status": "DRAFT_FOR_OWNER_REVIEW"
+}

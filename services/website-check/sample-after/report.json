@@ -1,0 +1,13 @@
+{
+  "generated": "2026-11-13T10:54:54.301344+00:00",
+  "pages": [
+    "index.html"
+  ],
+  "findings": [],
+  "limitations": [
+    "Static source checks only; no JavaScript execution or screenshots.",
+    "External links, fragments, forms, live server routes, visual mobile layout and accessibility compliance require manual checks.",
+    "No security, performance, SEO ranking or conversion guarantee."
+  ],
+  "status": "DRAFT_FOR_OWNER_REVIEW"
+}
